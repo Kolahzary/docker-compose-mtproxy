@@ -1,17 +1,13 @@
 version: '2'
 
-# Uncoment line if you want make any custom changes, if you want apply any environment change, uncoment "environment:" section too
-
 services:
-    telegram-proxy:
-        image: telegrammessenger/proxy:latest
+    mtproxy:
+        image: kolahzary/mtproxy:1.0 # MTProxy docker image without hard-coded limitations
         ports:
           - "443:443" #Proxy port
-          #- "2398:2398" # ONLY FOR TESTING - Show proxy stats on port 2398 outside of docker
+          - "127.0.0.1:2398:2398" # Show proxy stats on local port 2398 outside of docker
         volumes:
-           - "proxy-config:/data"
+           - "./mtproxy-data:/data"
         restart: unless-stopped
         env_file:
            - ./config.env
-volumes:
-  proxy-config:
