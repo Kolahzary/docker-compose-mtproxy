@@ -57,6 +57,6 @@ Use `sudo` with docker comands or add your account to docker group:
 `sudo usermod -aG docker $(whoami)`
 
 # Links
-Telegram docker hub: https://hub.docker.com/r/telegrammessenger/proxy/
-
-Source Code: https://github.com/TelegramMessenger/MTProxy
+Telegram mtproxy without hard-coded limitations docker hub: https://hub.docker.com/r/kolahzary/mtproxy/
+Dockerfile: https://github.com/Kolahzary/docker-mtproxy
+Source Code: https://github.com/Kolahzary/MTProxy-PublicStats
