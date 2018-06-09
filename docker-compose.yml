@@ -1,13 +1,38 @@
 version: '2'
 
 services:
-    mtproxy:
+    main:
         image: kolahzary/mtproxy:1.0 # MTProxy docker image without hard-coded limitations
         ports:
           - "443:443" #Proxy port
-          - "127.0.0.1:2398:2398" # Show proxy stats on local port 2398 outside of docker
+          #- "127.0.0.1:2398:2398" # Show proxy stats on local port 2398 outside of docker
         volumes:
-           - "./mtproxy-data:/data"
+           - "./data/mtproxy/main:/data"
         restart: unless-stopped
-        env_file:
-           - ./config.env
+        environment:
+           - WORKERS=1
+           - CONNECTIONS=60000
+           - SECRET=935ddceb2f6bbbb78363b224099f75c8
+           - TAG=3f40462915a3e6026a4d790127b95ded
+
+    alpha:
+        image: kolahzary/mtproxy:1.0 # MTProxy docker image without hard-coded limitations
+        ports:
+          - "444:443" #Proxy port
+        volumes:
+           - "./data/mtproxy/alpha:/data"
+        restart: unless-stopped
+        environment:
+           - WORKERS=1
+           - CONNECTIONS=20
+           - SECRET=935ddceb2f6bbbb78363b224099f75c8
+           - TAG=3f40462915a3e6026a4d790127b95ded
+
+    nginx:
+        image: nginx:alpine
+        ports:
+           - "127.0.0.1:59670:80" #Stats Port
+        restart: unless-stopped
+        volumes:
+           - "./nginx.conf:/etc/nginx/conf.d/default.conf:ro"
+           - "./data/nginx/logs/:/var/log/nginx/"
